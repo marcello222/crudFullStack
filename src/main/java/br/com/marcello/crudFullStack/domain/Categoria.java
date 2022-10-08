@@ -1,15 +1,16 @@
 package br.com.marcello.crudFullStack.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Categoria implements Serializable {
     @Id
@@ -17,6 +18,18 @@ public class Categoria implements Serializable {
     private Integer id;
 
     private String nome;
+
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "categorias")
+    private List<Produto> produtos = new ArrayList<>();
+
+    public Categoria() {
+    }
+
+    public Categoria(Integer id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
 
     @Override
     public boolean equals(Object o) {
