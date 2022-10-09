@@ -11,9 +11,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-@Data
 @Entity
 @NoArgsConstructor
+@Data
 public class Cliente implements Serializable {
 
     @Id
@@ -33,13 +33,16 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
+
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCLiente tipoCLiente) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCLiente = tipoCLiente.getCod();
-            }
+    }
 
     public TipoCLiente getTipoCLiente() {
         return TipoCLiente.toEnum(tipoCLiente);

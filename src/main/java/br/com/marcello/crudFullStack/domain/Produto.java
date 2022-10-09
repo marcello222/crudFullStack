@@ -6,7 +6,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,10 +22,13 @@ public class Produto implements Serializable {
 
     private Double preco;
 
+    @OneToMany
+    private Set<ItemPedido> itens = new HashSet<>();
+
     @JsonBackReference //para de buscar os objetos que ja foram buscados do outro lado
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
-    inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorias = new ArrayList<>();
 
     public Produto(Long id, String nome, Double preco) {
@@ -32,7 +37,14 @@ public class Produto implements Serializable {
         this.preco = preco;
     }
 
-    public Produto() {
+    public List<Pedido> getPedidos() {
+        List<Pedido> lista = new ArrayList<>();
+        for (ItemPedido x : itens) {
+            lista.add(x.getPedido());
+        }
+        return lista;
     }
 
+    public Produto() {
+    }
 }
