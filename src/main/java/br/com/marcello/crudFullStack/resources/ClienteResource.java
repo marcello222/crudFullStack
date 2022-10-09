@@ -1,7 +1,8 @@
 package br.com.marcello.crudFullStack.resources;
 
 
-import br.com.marcello.crudFullStack.service.CategoriaService;
+import br.com.marcello.crudFullStack.repository.ClienteRepository;
+import br.com.marcello.crudFullStack.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaResource {
+@RequestMapping(value = "/clientes")
+public class ClienteResource {
 
     @Autowired
-    CategoriaService categoriaService;
+    ClienteService clienteService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> find(@PathVariable Integer id) {
-         return ResponseEntity.status(HttpStatus.OK).body(categoriaService.buscar(id));
+         return ResponseEntity.status(HttpStatus.OK).body(clienteService.buscar(id));
     }
-
-
 }
