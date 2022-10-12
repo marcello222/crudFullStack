@@ -1,7 +1,7 @@
 package br.com.marcello.crudFullStack.domain;
 
 import br.com.marcello.crudFullStack.domain.enumetor.EstadoPagamento;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,6 +22,7 @@ public abstract class Pagamento implements Serializable {
 
     private Integer estadoPagamento;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId//garante que seja o mesmo id do pedido

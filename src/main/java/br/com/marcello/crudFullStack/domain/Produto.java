@@ -1,6 +1,6 @@
 package br.com.marcello.crudFullStack.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ public class Produto implements Serializable {
     @OneToMany
     private Set<ItemPedido> itens = new HashSet<>();
 
-    @JsonBackReference //para de buscar os objetos que ja foram buscados do outro lado
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))

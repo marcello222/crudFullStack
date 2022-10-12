@@ -2,7 +2,7 @@ package br.com.marcello.crudFullStack.domain;
 
 
 import br.com.marcello.crudFullStack.domain.enumetor.TipoCLiente;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
@@ -25,7 +25,6 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCLiente;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
@@ -33,6 +32,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

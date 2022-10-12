@@ -1,5 +1,6 @@
 package br.com.marcello.crudFullStack.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class ItemPedido implements Serializable {
         return id.getPedido();
     }
 
+    @JsonIgnore
     public Produto getProduto() {
         return id.getProduto();
     }
