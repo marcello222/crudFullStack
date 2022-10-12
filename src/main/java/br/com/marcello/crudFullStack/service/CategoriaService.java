@@ -58,7 +58,7 @@ public class CategoriaService {
     }
 
 
-    //MEtodo auxiliar que instancia uma categoria a partir de um metodo DTO
+    //Metodo auxiliar que instancia uma categoria a partir de um metodo DTO
     public Categoria fromDTO(CategoriaDTO objDTO) {
         return new Categoria(objDTO.getId(), objDTO.getNome());
     }
