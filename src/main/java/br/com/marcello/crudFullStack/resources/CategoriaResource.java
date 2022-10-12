@@ -5,11 +5,13 @@ import br.com.marcello.crudFullStack.domain.Categoria;
 import br.com.marcello.crudFullStack.domain.dto.CategoriaDTO;
 import br.com.marcello.crudFullStack.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,17 +29,19 @@ public class CategoriaResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
-        obj = categoriaService.insert(obj);
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+        Categoria categoriaDTO = categoriaService.fromDTO(objDTO);
+        categoriaDTO = categoriaService.insert(categoriaDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+                .path("/{id}").buildAndExpand(objDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
-        obj.setId(id);
-        obj = categoriaService.update(obj);
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
+        Categoria categoriaDTO = categoriaService.fromDTO(objDTO);
+        objDTO.setId(id);
+        categoriaDTO = categoriaService.update(categoriaDTO);
         return ResponseEntity.noContent().build();
     }
 
@@ -52,6 +56,18 @@ public class CategoriaResource {
         List<Categoria> categorias = categoriaService.findAll();
         List<CategoriaDTO> categoriaDTO = categorias.stream()
                 .map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());//para converter uma lista de Categoria em CateroiaDTO
+        return ResponseEntity.ok().body(categoriaDTO);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity <Page<CategoriaDTO>> findPage
+            (@RequestParam(value = "page", defaultValue = "0") Integer page,
+             @RequestParam(value = "linesPerPAge", defaultValue = "24") Integer linesPerPAge,
+             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Categoria> categorias = categoriaService.findPage(page, linesPerPAge, orderBy, direction);
+        Page<CategoriaDTO> categoriaDTO = categorias
+                .map(obj -> new CategoriaDTO(obj));//para converter uma lista de Categoria em CateroiaDTO
         return ResponseEntity.ok().body(categoriaDTO);
     }
 }
