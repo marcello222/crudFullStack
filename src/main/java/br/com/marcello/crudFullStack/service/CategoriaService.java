@@ -2,8 +2,10 @@ package br.com.marcello.crudFullStack.service;
 
 import br.com.marcello.crudFullStack.domain.Categoria;
 import br.com.marcello.crudFullStack.repository.CategoriaRepository;
+import br.com.marcello.crudFullStack.service.exception.DataIntegrityException;
 import br.com.marcello.crudFullStack.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,4 +33,14 @@ public class CategoriaService {
     public Categoria update(Categoria obj) {
         return categoriaRepository.save(obj);
     }
+
+    public void delete(Integer id) {
+        find(id);
+        try {
+            categoriaRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possivel excluir uma categoria que contem produtos");
+        }
+    }
+
 }
