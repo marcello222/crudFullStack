@@ -2,6 +2,7 @@ package br.com.marcello.crudFullStack.resources;
 
 
 import br.com.marcello.crudFullStack.domain.Categoria;
+import br.com.marcello.crudFullStack.domain.dto.CategoriaDTO;
 import br.com.marcello.crudFullStack.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -44,4 +47,11 @@ public class CategoriaResource {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity <List<CategoriaDTO>> findAll() {
+        List<Categoria> categorias = categoriaService.findAll();
+        List<CategoriaDTO> categoriaDTO = categorias.stream()
+                .map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());//para converter uma lista de Categoria em CateroiaDTO
+        return ResponseEntity.ok().body(categoriaDTO);
+    }
 }
