@@ -2,7 +2,7 @@ package br.com.marcello.crudFullStack;
 
 import br.com.marcello.crudFullStack.domain.*;
 import br.com.marcello.crudFullStack.domain.enumetor.EstadoPagamento;
-import br.com.marcello.crudFullStack.domain.enumetor.TipoCLiente;
+import br.com.marcello.crudFullStack.domain.enumetor.TipoCliente;
 import br.com.marcello.crudFullStack.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -87,7 +87,7 @@ public class CrudFullStackApplication implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
 
 		Cliente cliente1 = new Cliente(null, "Maria", "Maria@Gmail.com",
-				"376373673633", TipoCLiente.PESSOAFISICA);
+				"376373673633", TipoCliente.PESSOAFISICA);
 		cliente1.getTelefones().addAll(Arrays.asList("32323-3333", "23232-3232"));
 
 		Endereco endereco1 = new Endereco(null, "Rua flores", "300", "apto 303",

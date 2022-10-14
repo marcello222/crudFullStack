@@ -1,7 +1,9 @@
 package br.com.marcello.crudFullStack.service;
 
 import br.com.marcello.crudFullStack.domain.Categoria;
+import br.com.marcello.crudFullStack.domain.Cliente;
 import br.com.marcello.crudFullStack.domain.dto.CategoriaDTO;
+import br.com.marcello.crudFullStack.domain.dto.ClienteDTO;
 import br.com.marcello.crudFullStack.repository.CategoriaRepository;
 import br.com.marcello.crudFullStack.service.exception.DataIntegrityException;
 import br.com.marcello.crudFullStack.service.exception.ObjectNotFoundException;
@@ -57,9 +59,12 @@ public class CategoriaService {
         return  categoriaRepository.findAll(pageRequest);
     }
 
-
     //Metodo auxiliar que instancia uma categoria a partir de um metodo DTO
     public Categoria fromDTO(CategoriaDTO objDTO) {
         return new Categoria(objDTO.getId(), objDTO.getNome());
+    }
+
+    public void updateData(Categoria newObj, Categoria obj) {
+        newObj.setNome(obj.getNome());
     }
 }

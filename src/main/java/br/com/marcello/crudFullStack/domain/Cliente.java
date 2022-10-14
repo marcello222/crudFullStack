@@ -1,7 +1,7 @@
 package br.com.marcello.crudFullStack.domain;
 
 
-import br.com.marcello.crudFullStack.domain.enumetor.TipoCLiente;
+import br.com.marcello.crudFullStack.domain.enumetor.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,19 +36,19 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCLiente tipoCLiente) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCLiente) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCLiente = tipoCLiente.getCod();
+        this.tipoCLiente = (tipoCLiente==null) ? null : tipoCLiente.getCod();
     }
 
-    public TipoCLiente getTipoCLiente() {
-        return TipoCLiente.toEnum(tipoCLiente);
+    public TipoCliente getTipoCLiente() {
+        return TipoCliente.toEnum(tipoCLiente);
     }
 
-    public void setTipoCLiente(TipoCLiente tipoCLiente) {
+    public void setTipoCLiente(TipoCliente tipoCLiente) {
         this.tipoCLiente = tipoCLiente.getCod();
     }
 

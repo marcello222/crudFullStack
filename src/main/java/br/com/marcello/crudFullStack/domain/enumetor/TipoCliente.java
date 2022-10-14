@@ -1,6 +1,6 @@
 package br.com.marcello.crudFullStack.domain.enumetor;
 
-public enum TipoCLiente {
+public enum TipoCliente {
 
     PESSOAFISICA(1, "Pessoa Fisica"),
     PESSOAJURIDICA(2, "pessoa Juridica");
@@ -8,7 +8,7 @@ public enum TipoCLiente {
     private int cod;
     private String descricao;
 
-    private TipoCLiente(int cod, String descricao){
+    private TipoCliente(int cod, String descricao){
         this.cod = cod;
         this.descricao = descricao;
     }
@@ -21,12 +21,12 @@ public enum TipoCLiente {
         return descricao;
     }
 
-    public static TipoCLiente toEnum(Integer cod) {
+    public static TipoCliente toEnum(Integer cod) {
         if (cod == null) {
             return  null;
         }
 
-        for (TipoCLiente tipoCLiente : TipoCLiente.values()) {
+        for (TipoCliente tipoCLiente : TipoCliente.values()) {
             if(cod.equals(tipoCLiente.getCod())) {
                 return tipoCLiente;
             }
