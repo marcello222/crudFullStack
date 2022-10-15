@@ -1,14 +1,18 @@
 package br.com.marcello.crudFullStack.domain.enumetor;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public enum TipoCliente {
 
     PESSOAFISICA(1, "Pessoa Fisica"),
     PESSOAJURIDICA(2, "pessoa Juridica");
 
-    private int cod;
-    private String descricao;
+    int cod;
+    String descricao;
 
-    private TipoCliente(int cod, String descricao){
+    TipoCliente(int cod, String descricao){
         this.cod = cod;
         this.descricao = descricao;
     }

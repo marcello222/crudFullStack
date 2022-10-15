@@ -1,9 +1,11 @@
 package br.com.marcello.crudFullStack.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,14 +15,15 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode
 @Entity
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public class ItemPedido implements Serializable {
 
     @EmbeddedId
-    private ItemPedidoPk id = new ItemPedidoPk();//Atributo composto (uma outra classe)
+    ItemPedidoPk id = new ItemPedidoPk();//Atributo composto (uma outra classe)
 
-    private Double desconto;
-    private Integer quantidade;
-    private Double preco;
+    Double desconto;
+    Integer quantidade;
+    Double preco;
 
     public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
         super();

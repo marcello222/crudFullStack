@@ -1,13 +1,17 @@
 package br.com.marcello.crudFullStack.domain.enumetor;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public enum EstadoPagamento {
 
     PENDENTE(1, "Pendente"),
     QUITADO(2, "Quitado"),
     CANCELADO(3, "Cancelado");
 
-    private int cod;
-    private String descricao;
+    int cod;
+    String descricao;
 
     EstadoPagamento(int cod, String descricao) {
         this.cod = cod;

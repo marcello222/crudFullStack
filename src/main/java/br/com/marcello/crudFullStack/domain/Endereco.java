@@ -2,9 +2,11 @@ package br.com.marcello.crudFullStack.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -15,26 +17,27 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public class Endereco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
 
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private String cep;
+    String logradouro;
+    String numero;
+    String complemento;
+    String bairro;
+    String cep;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "cidade_id")
-    private Cidade cidade;
+    Cidade cidade;
 
     @Override
     public boolean equals(Object o) {

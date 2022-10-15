@@ -1,9 +1,9 @@
 package br.com.marcello.crudFullStack.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,27 +14,28 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public class Pedido implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
 
     @OneToMany
-    private Set<ItemPedido> itens = new HashSet<>();
+    Set<ItemPedido> itens = new HashSet<>();
 
-    private Date instante;
+    Date instante;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")// cascade para nao dar erro em entidade trasiente pedido e pagamento
-    private Pagamento pagamento;
+    Pagamento pagamento;
 
     @ManyToOne
     @JoinColumn(name = "endereco_de_entrega_id")
-    private Endereco enderecoDeEntrega;
+    Endereco enderecoDeEntrega;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    Cliente cliente;
 
     public Pedido(Integer id, Date instante, Endereco enderecoDeEntrega, Cliente cliente) {
         this.id = id;

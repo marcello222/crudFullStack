@@ -57,7 +57,7 @@ public class ClienteService {
         try {
             clienteRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("Não é possivel excluir porue tem entidades realcionadas");
+            throw new DataIntegrityException("Não é possivel excluir porque tem pedidos realcionados");
         }
     }
 
@@ -77,7 +77,7 @@ public class ClienteService {
 
     public Cliente fromDTO(ClienteNewDto objDTO) {
         Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(),
-                TipoCliente.toEnum(objDTO.getTipoCLiente()));
+                TipoCliente.toEnum(objDTO.getTipoCliente()));
         Cidade cidade =new Cidade(objDTO.getCidadeId(), null, null);
         Endereco endereco = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(),
                 objDTO.getBairro(), objDTO.getCep(), cli, cidade);

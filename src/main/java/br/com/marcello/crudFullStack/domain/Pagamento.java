@@ -2,9 +2,11 @@ package br.com.marcello.crudFullStack.domain;
 
 import br.com.marcello.crudFullStack.domain.enumetor.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,19 +16,20 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)//mapeando herança a strategia para gerar a tabela no banco
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public abstract class Pagamento implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
-    private Integer id;
+    Integer id;
 
-    private Integer estadoPagamento;
+    Integer estadoPagamento;
 
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId//garante que seja o mesmo id do pedido
-    private Pedido pedido;
+    Pedido pedido;
 
     public Pagamento(Integer id, EstadoPagamento estadoPagamento, Pedido pedido) {
         this.id = id;

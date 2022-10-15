@@ -1,7 +1,9 @@
 package br.com.marcello.crudFullStack.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,24 +14,25 @@ import java.util.Set;
 
 @Data
 @Entity
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public class Produto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String nome;
+    String nome;
 
-    private Double preco;
+    Double preco;
 
     @OneToMany
-    private Set<ItemPedido> itens = new HashSet<>();
+    Set<ItemPedido> itens = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-    private List<Categoria> categorias = new ArrayList<>();
+    List<Categoria> categorias = new ArrayList<>();
 
     public Produto(Long id, String nome, Double preco) {
         this.id = id;

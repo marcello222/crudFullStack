@@ -3,8 +3,10 @@ package br.com.marcello.crudFullStack.domain;
 
 import br.com.marcello.crudFullStack.domain.enumetor.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -14,42 +16,47 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 @Data
+@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
 public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
 
-    private String nome;
-    private String email;
-    private String cpfOuCnpj;
-    private Integer tipoCLiente;
+    String nome;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Endereco> enderecos = new ArrayList<>();
+    @Column(unique = true)//garante que o banco de dados nao deixa inserir dois dados iguais
+    String email;
+
+    String cpfOuCnpj;
+
+    Integer tipoCliente;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)//Toda operação que modificar o cliente eu posso apagar os endereços autoamticamente
+    List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "TELEFONE")
-    private Set<String> telefones = new HashSet<>();
+    Set<String> telefones = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos = new ArrayList<>();
+    List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCLiente) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCLiente = (tipoCLiente==null) ? null : tipoCLiente.getCod();
+        this.tipoCliente = (tipoCLiente==null) ? null : tipoCLiente.getCod();
     }
 
-    public TipoCliente getTipoCLiente() {
-        return TipoCliente.toEnum(tipoCLiente);
+    public TipoCliente getTipoCliente() {
+        return TipoCliente.toEnum(tipoCliente);
     }
 
-    public void setTipoCLiente(TipoCliente tipoCLiente) {
-        this.tipoCLiente = tipoCLiente.getCod();
+    public void setTipoCliente(TipoCliente tipoCliente) {
+        this.tipoCliente = tipoCliente.getCod();
     }
 
     @Override
